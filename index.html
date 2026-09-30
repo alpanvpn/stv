@@ -1,305 +1,561 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>STV Ecosystem</title>
+  <meta name="description" content="Бесплатные проекты STV Ecosystem: привычки, языки, Коран, аналитика крипторынка и журнал сделок.">
   
-  <!-- Геометрический шрифт Plus Jakarta Sans -->
+  <!-- Современный технологичный шрифт -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
+    :root {
+      --bg-dark: #070913;
+      --card-bg: rgba(255, 255, 255, 0.04);
+      --card-bg-hover: rgba(255, 255, 255, 0.08);
+      --card-border: rgba(255, 255, 255, 0.1);
+      --card-border-hover: rgba(66, 133, 244, 0.5);
+      --accent-blue: #2563eb;
+      --accent-cyan: #38bdf8;
+      --accent-glow: rgba(37, 99, 235, 0.35);
+      --text-white: #ffffff;
+      --text-dim: #94a3b8;
+      --text-sub: #64748b;
+      --font: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Plus Jakarta Sans', sans-serif;
       -webkit-font-smoothing: antialiased;
     }
 
     body {
+      background-color: var(--bg-dark);
+      color: var(--text-white);
+      font-family: var(--font);
       min-height: 100vh;
-      background-color: #070a1e;
-      color: #ffffff;
       display: flex;
       justify-content: center;
-      padding: 40px 16px;
+      padding: 40px 16px 60px;
       position: relative;
       overflow-x: hidden;
     }
 
-    /* Жидкий синий блюр-градиент на фоне (Apple Mesh Glow) */
-    .background-blobs {
+    /* Фоновые размытые неоновые градиенты (как в референсе) */
+    .bg-blobs {
       position: fixed;
       top: 0;
       left: 0;
       width: 100vw;
       height: 100vh;
-      z-index: -1;
+      z-index: 0;
+      pointer-events: none;
       overflow: hidden;
-      filter: blur(85px);
     }
+
     .blob {
       position: absolute;
       border-radius: 50%;
+      filter: blur(100px);
+      opacity: 0.5;
+      animation: float 10s ease-in-out infinite alternate;
     }
-    .blob-1 {
-      width: 420px;
-      height: 420px;
-      background: #1847f9;
-      top: -80px;
+
+    .blob-top {
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, #1d4ed8 0%, transparent 70%);
+      top: -150px;
       left: 50%;
       transform: translateX(-50%);
-      opacity: 0.65;
-    }
-    .blob-2 {
-      width: 360px;
-      height: 360px;
-      background: #001dad;
-      bottom: 5%;
-      right: -80px;
-      opacity: 0.75;
-    }
-    .blob-3 {
-      width: 300px;
-      height: 300px;
-      background: #2458ff;
-      top: 45%;
-      left: -60px;
-      opacity: 0.45;
     }
 
-    /* Контейнер страницы под мобилку */
+    .blob-bottom {
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, #4338ca 0%, transparent 70%);
+      bottom: -100px;
+      right: -100px;
+      animation-duration: 14s;
+    }
+
+    .blob-center {
+      width: 350px;
+      height: 350px;
+      background: radial-gradient(circle, #0284c7 0%, transparent 70%);
+      top: 40%;
+      left: -150px;
+      opacity: 0.35;
+      animation-duration: 12s;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px) scale(1); }
+      100% { transform: translateY(30px) scale(1.08); }
+    }
+
+    /* Основной контейнер */
     .container {
-      width: 100%;
-      max-width: 440px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 18px;
-      z-index: 1;
-    }
-
-    /* Шапка сайта */
-    .header {
-      text-align: center;
-      margin-bottom: 12px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    /* Белая стеклянная подложка главного логотипа (White Liquid Glass) */
-    .main-logo-wrapper {
-      width: 96px;
-      height: 96px;
-      border-radius: 28px;
-      background: rgba(255, 255, 255, 0.9);
-      backdrop-filter: blur(25px);
-      -webkit-backdrop-filter: blur(25px);
-      border: 1.5px solid #ffffff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 16px;
-      box-shadow: 0 16px 35px rgba(24, 71, 249, 0.35), 
-                  inset 0 2px 4px rgba(255, 255, 255, 0.8);
       position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 480px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
     }
-    .main-logo {
-      width: 62px;
-      height: 62px;
+
+    /* Шапка / Логотип */
+    .hero {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .main-logo-box {
+      width: 86px;
+      height: 86px;
+      border-radius: 26px;
+      background: linear-gradient(145deg, #ffffff, #e2e8f0);
+      display: grid;
+      place-items: center;
+      box-shadow: 0 12px 30px var(--accent-glow), 0 0 0 1px rgba(255, 255, 255, 0.4);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .main-logo-box:hover {
+      transform: translateY(-2px) scale(1.03);
+    }
+
+    .main-logo-box img {
+      width: 52px;
+      height: 52px;
       object-fit: contain;
     }
 
-    .title {
-      font-size: 28px;
+    h1 {
+      font-size: 30px;
       font-weight: 800;
-      letter-spacing: -0.5px;
-      margin-bottom: 6px;
-    }
-    .subtitle {
-      font-size: 13.5px;
-      color: rgba(255, 255, 255, 0.65);
-      font-weight: 500;
-      line-height: 1.4;
-      padding: 0 10px;
+      letter-spacing: -0.02em;
     }
 
-    /* Основная стеклянная плашка карточки */
-    .glass-card {
-      width: 100%;
-      background: rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(35px);
-      -webkit-backdrop-filter: blur(35px);
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      border-radius: 24px;
-      padding: 16px 18px;
-      text-decoration: none;
-      color: #ffffff;
+    .lead {
+      font-size: 14px;
+      color: var(--text-dim);
+      line-height: 1.5;
+      max-width: 34ch;
+    }
+
+    /* Бейджи статистики */
+    .stats {
       display: flex;
-      align-items: center;
-      gap: 16px;
-      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .stat {
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(10px);
+      font-size: 13px;
+      color: var(--text-dim);
+    }
+
+    .stat b {
+      color: #fff;
+      font-weight: 700;
+    }
+
+    /* Карточка Главного Канала */
+    .channel-card {
       position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      padding: 20px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, rgba(29, 78, 216, 0.3) 0%, rgba(15, 23, 42, 0.6) 100%);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      text-decoration: none;
+      color: var(--text-white);
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
       overflow: hidden;
     }
 
-    /* Световой блик по верхней грани карточки */
-    .glass-card::before {
+    .channel-card::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
+      top: 0; left: 0; right: 0;
       height: 1px;
-      background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
+      background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.6), transparent);
     }
 
-    .glass-card:hover {
-      transform: translateY(-3px) scale(1.01);
-      background: rgba(255, 255, 255, 0.12);
-      border-color: rgba(255, 255, 255, 0.3);
-      box-shadow: 0 14px 40px rgba(24, 71, 249, 0.25);
-    }
-    .glass-card:active {
-      transform: scale(0.98);
+    .channel-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(56, 189, 248, 0.5);
+      box-shadow: 0 16px 36px var(--accent-glow);
     }
 
-    /* Белая стеклянная подложка для синих иконок проектов */
-    .card-icon-wrapper {
-      width: 58px;
-      height: 58px;
-      border-radius: 18px;
-      background: rgba(255, 255, 255, 0.92);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1.5px solid #ffffff;
+    .channel-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .plane-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #38bdf8, #2563eb);
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      box-shadow: 0 6px 16px rgba(14, 165, 233, 0.4);
+    }
+
+    .channel-kicker {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent-cyan);
+    }
+
+    .channel-title {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .channel-desc {
+      font-size: 13.5px;
+      color: var(--text-dim);
+      line-height: 1.4;
+    }
+
+    .channel-btn {
       display: flex;
       align-items: center;
       justify-content: center;
-      flex-shrink: 0;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15),
-                  inset 0 1px 2px rgba(255, 255, 255, 0.9);
+      gap: 8px;
+      padding: 12px;
+      border-radius: 14px;
+      background: var(--accent-blue);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      transition: background 0.2s;
     }
-    .card-icon {
-      width: 38px;
-      height: 38px;
+
+    .channel-card:hover .channel-btn {
+      background: #1d4ed8;
+    }
+
+    /* Группы карточек */
+    .group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .group-title {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-sub);
+      margin-left: 6px;
+    }
+
+    /* Карточки приложений (Liquid Glass) */
+    .card {
+      position: relative;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 16px;
+      align-items: center;
+      padding: 16px 18px;
+      border-radius: 20px;
+      background: var(--card-bg);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border: 1px solid var(--card-border);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    }
+
+    .card:hover {
+      background: var(--card-bg-hover);
+      border-color: var(--card-border-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .card-link {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+    }
+
+    .tile {
+      width: 58px;
+      height: 58px;
+      border-radius: 16px;
+      background: #ffffff;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .tile img {
+      width: 40px;
+      height: 40px;
       object-fit: contain;
     }
 
-    /* Контент карточки */
-    .card-content {
-      flex-grow: 1;
+    .card-info {
+      min-width: 0;
     }
-    .card-title {
-      font-size: 16.5px;
-      font-weight: 700;
-      margin-bottom: 3px;
+
+    .card-header-row {
       display: flex;
       align-items: center;
       gap: 8px;
     }
-    .card-desc {
-      font-size: 12.5px;
-      color: rgba(255, 255, 255, 0.65);
-      line-height: 1.35;
-    }
-    .badge {
-      font-size: 11px;
-      font-weight: 600;
-      padding: 2px 7px;
-      background: rgba(24, 71, 249, 0.45);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 20px;
-      color: #d1dcff;
+
+    .card-header-row h3 {
+      font-size: 17px;
+      font-weight: 700;
     }
 
-    /* Стрелочка */
-    .card-arrow {
-      color: rgba(255, 255, 255, 0.4);
-      font-size: 18px;
-      transition: transform 0.2s ease, color 0.2s ease;
+    .tag {
+      padding: 2px 7px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+      background: rgba(56, 189, 248, 0.15);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      color: #7dd3fc;
     }
-    .glass-card:hover .card-arrow {
-      color: #ffffff;
+
+    .card-info p {
+      margin-top: 4px;
+      font-size: 13px;
+      color: var(--text-dim);
+      line-height: 1.35;
+    }
+
+    /* Кнопки ссылок (для трейдинг проектов) */
+    .links {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #e2e8f0;
+      text-decoration: none;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      transition: all 0.2s;
+    }
+
+    .chip:hover {
+      background: var(--accent-blue);
+      border-color: var(--accent-cyan);
+      color: #fff;
+    }
+
+    .arrow-icon {
+      color: var(--text-sub);
+      transition: transform 0.2s, color 0.2s;
+    }
+
+    .card:hover .arrow-icon {
+      color: #fff;
       transform: translateX(4px);
     }
 
-    /* Футер */
-    .footer {
-      margin-top: 15px;
-      font-size: 11.5px;
-      color: rgba(255, 255, 255, 0.4);
+    footer {
       text-align: center;
-      letter-spacing: 0.5px;
+      font-size: 12px;
+      color: var(--text-sub);
+      margin-top: 10px;
     }
   </style>
 </head>
 <body>
 
-  <!-- Фон -->
-  <div class="background-blobs">
-    <div class="blob blob-1"></div>
-    <div class="blob blob-2"></div>
-    <div class="blob blob-3"></div>
+  <!-- Фон со светящимися пятнами -->
+  <div class="bg-blobs">
+    <div class="blob blob-top"></div>
+    <div class="blob blob-bottom"></div>
+    <div class="blob blob-center"></div>
   </div>
 
-  <div class="container">
-    
-    <!-- Шапка экосистемы -->
-    <header class="header">
-      <div class="main-logo-wrapper">
-        <img src="logo-main.png" alt="STV Ecosystem" class="main-logo">
+  <main class="container">
+    <!-- Шапка с главным логотипом -->
+    <header class="hero">
+      <div class="main-logo-box">
+        <img src="logo-main.png" alt="STV">
       </div>
-      <h1 class="title">STV Ecosystem</h1>
-      <p class="subtitle">Бесплатные инструменты для саморазвития, знаний и дисциплины</p>
+      <h1>STV Ecosystem</h1>
+      <p class="lead">Бесплатные инструменты для саморазвития, знаний, дисциплины и трейдинга</p>
+      <div class="stats">
+        <span class="stat"><b>6 700+</b> пользователей</span>
+        <span class="stat"><b>5</b> проектов</span>
+        <span class="stat"><b>100%</b> бесплатно</span>
+      </div>
     </header>
 
-    <!-- 1: Ритм -->
-    <a href="https://t.me/ritmstv_bot" target="_blank" class="glass-card">
-      <div class="card-icon-wrapper">
-        <img src="logo-ritm.png" alt="Ритм" class="card-icon">
+    <!-- Главный Telegram канал -->
+    <a class="channel-card" href="https://t.me/stvecosystem" target="_blank" rel="noopener">
+      <div class="channel-header">
+        <div class="plane-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+          </svg>
+        </div>
+        <div>
+          <div class="channel-kicker">Главный канал</div>
+          <div class="channel-title">STV Ecosystem в Telegram</div>
+        </div>
       </div>
-      <div class="card-content">
-        <div class="card-title">Ритм <span class="badge">3.5k</span></div>
-        <div class="card-desc">Управление собой: привычки, задачи, цели и сферы жизни</div>
+      <p class="channel-desc">Новости, статистика проектов и анонсы новых инструментов</p>
+      <div class="channel-btn">
+        <span>Подписаться на канал</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </div>
-      <div class="card-arrow">→</div>
     </a>
 
-    <!-- 2: WordPulse -->
-    <a href="https://t.me/wordpulseru_bot" target="_blank" class="glass-card">
-      <div class="card-icon-wrapper">
-        <img src="logo-wordpulse.png" alt="WordPulse" class="card-icon">
-      </div>
-      <div class="card-content">
-        <div class="card-title">WordPulse <span class="badge">2.1k</span></div>
-        <div class="card-desc">Изучение иностранных слов через интервальные повторения</div>
-      </div>
-      <div class="card-arrow">→</div>
-    </a>
+    <!-- Блок 1: Саморазвитие -->
+    <section class="group">
+      <div class="group-title">Саморазвитие</div>
+      
+      <!-- Ритм -->
+      <article class="card">
+        <a class="card-link" href="https://t.me/ritmstv_bot" target="_blank" rel="noopener"></a>
+        <div class="tile">
+          <img src="logo-ritm.png" alt="Ритм">
+        </div>
+        <div class="card-info">
+          <div class="card-header-row">
+            <h3>Ритм</h3>
+            <span class="tag">3.5k</span>
+          </div>
+          <p>Управление собой: привычки, задачи, цели и сферы жизни</p>
+        </div>
+        <svg class="arrow-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+      </article>
 
-    <!-- 3: Hifz -->
-    <a href="https://t.me/hifzmanager_bot" target="_blank" class="glass-card">
-      <div class="card-icon-wrapper">
-        <img src="logo-hifz.png" alt="Hifz" class="card-icon">
-      </div>
-      <div class="card-content">
-        <div class="card-title">Hifz <span class="badge">1.1k</span></div>
-        <div class="card-desc">Системное заучивание, повторение и сохранение Корана</div>
-      </div>
-      <div class="card-arrow">→</div>
-    </a>
+      <!-- WordPulse -->
+      <article class="card">
+        <a class="card-link" href="https://t.me/wordpulseru_bot" target="_blank" rel="noopener"></a>
+        <div class="tile">
+          <img src="logo-wordpulse.png" alt="WordPulse">
+        </div>
+        <div class="card-info">
+          <div class="card-header-row">
+            <h3>WordPulse</h3>
+            <span class="tag">2.1k</span>
+          </div>
+          <p>Изучение иностранных слов через интервальные повторения</p>
+        </div>
+        <svg class="arrow-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+      </article>
 
-    <div class="footer">
-      STV Ecosystem © 2026 • Все продукты бесплатны
-    </div>
+      <!-- Hifz -->
+      <article class="card">
+        <a class="card-link" href="https://t.me/hifzmanager_bot" target="_blank" rel="noopener"></a>
+        <div class="tile">
+          <img src="logo-hifz.png" alt="Hifz">
+        </div>
+        <div class="card-info">
+          <div class="card-header-row">
+            <h3>Hifz</h3>
+            <span class="tag">1.1k</span>
+          </div>
+          <p>Системное заучивание, повторение и сохранение Корана</p>
+        </div>
+        <svg class="arrow-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+      </article>
+    </section>
 
-  </div>
+    <!-- Блок 2: Крипто и трейдинг -->
+    <section class="group">
+      <div class="group-title">Крипто и трейдинг</div>
+
+      <!-- STV Radar -->
+      <article class="card">
+        <div class="tile">
+          <img src="logo-radar.png" alt="STV Radar">
+        </div>
+        <div class="card-info">
+          <div class="card-header-row">
+            <h3>STV Radar</h3>
+          </div>
+          <p>Аналитика крипторынка: куда идут деньги, нарративы и обзоры</p>
+          <div class="links">
+            <a class="chip" href="https://t.me/stvradar" target="_blank" rel="noopener">Канал</a>
+            <a class="chip" href="https://stvradar.ru" target="_blank" rel="noopener">Сайт stvradar.ru</a>
+          </div>
+        </div>
+        <svg class="arrow-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+      </article>
+
+      <!-- STV Loop -->
+      <article class="card">
+        <div class="tile">
+          <img src="logo-loop.png" alt="STV Loop">
+        </div>
+        <div class="card-info">
+          <div class="card-header-row">
+            <h3>STV Loop</h3>
+          </div>
+          <p>Журнал и аналитика сделок: где ты зарабатываешь, а где теряешь</p>
+          <div class="links">
+            <a class="chip" href="https://stvloop.ru" target="_blank" rel="noopener">Сайт stvloop.ru</a>
+            <a class="chip" href="https://t.me/stvloop" target="_blank" rel="noopener">Telegram</a>
+          </div>
+        </div>
+        <svg class="arrow-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+      </article>
+    </section>
+
+    <footer>
+      STV Ecosystem © 2026 · Все продукты бесплатны
+    </footer>
+  </main>
 
 </body>
 </html>
